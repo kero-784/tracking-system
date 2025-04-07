@@ -9,228 +9,294 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">  <!-- Flatpickr CSS -->
     <style>
-        /* General Styles (same as before) */
+        /* Modernized General Styles */
         body {
             font-family: 'Nunito', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #eef5ff;
-            color: #333;
-            line-height: 1.6;
-            font-size: 14px;
+            background-color: #f8f9fa; /* Lighter background */
+            color: #495057; /* Slightly darker, modern text color */
+            line-height: 1.7; /* Improved line height for readability */
+            font-size: 15px; /* Slightly larger base font size */
+            -webkit-font-smoothing: antialiased; /* For smoother fonts on webkit browsers */
+            -moz-osx-font-smoothing: grayscale; /* For smoother fonts on Firefox */
         }
 
-        .container { /* as before */
-            width: 90%;
-            max-width: 900px;
-            margin: 20px auto;
+        .container {
+            width: 95%; /* Wider container on larger screens */
+            max-width: 1100px; /* Increased max-width */
+            margin: 30px auto; /* More top and bottom margin */
             background-color: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 40px; /* Increased padding */
+            border-radius: 12px; /* More rounded corners */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* Softer, more modern shadow */
+            transition: box-shadow 0.3s ease; /* Transition for container shadow */
         }
 
-        h1 { /* as before */
+        .container:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1); /* Slightly enhanced shadow on hover */
+        }
+
+        h1 {
             text-align: center;
-            color: #5a7bb0;
-            margin-bottom: 25px;
-            font-size: 2.2em;
+            color: #3b82f6; /* Trendy blue color */
+            margin-bottom: 30px; /* Increased margin */
+            font-size: 2.5em; /* Slightly larger title */
             font-weight: 700;
             mso-spacerun:yes;
         }
 
-        label { /* as before */
+        label {
             display: block;
-            margin-bottom: 8px;
-            color: #666;
+            margin-bottom: 10px; /* Increased margin */
+            color: #6c757d; /* Muted label color */
             font-weight: 600;
             font-size: 0.95em;
+            transition: color 0.3s ease; /* Transition for label color */
         }
 
-        .form-row { /* as before */
+        label:hover {
+            color: #495057; /* Darken label color on hover */
+        }
+
+
+        .form-row {
             display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 25px; /* Increased gap */
+            margin-bottom: 25px; /* Increased margin */
         }
 
-        .form-row > div { /* as before */
+        .form-row > div {
             flex: 1;
         }
 
         input[type="text"],
         input[type="date"],
         textarea,
-        select { /* as before */
+        select {
             width: 100%;
-            padding: 12px;
+            padding: 14px; /* Increased padding */
             margin-bottom: 0;
-            border: 1px solid #ddd;
+            border: 1px solid #ced4da; /* Light grey border */
             border-radius: 8px;
             box-sizing: border-box;
-            font-size: 15px;
-            color: #555;
-            transition: border-color 0.3s ease;
+            font-size: 16px; /* Slightly larger font size */
+            color: #495057;
+            background-color: #f8f9fa; /* Light background for inputs */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
         }
 
         input[type="text"]:focus,
         input[type="date"]:focus,
         textarea:focus,
-        select:focus { /* as before */
-            border-color: #5a7bb0;
+        select:focus {
+            border-color: #3b82f6; /* Trendy blue focus color */
             outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); /* Subtle focus ring */
+            background-color: #fff; /* White background on focus */
         }
 
-        textarea { /* as before */
+        textarea {
             resize: vertical;
-            height: 100px;
+            min-height: 120px; /* Increased min-height */
         }
 
-        select { /* as before */
+        select {
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
-            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23666"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%236c757d"><path d="M7 10l5 5 5-5z"/></svg>'); /* Muted dropdown arrow */
             background-repeat: no-repeat;
-            background-position: right 12px center;
+            background-position: right 14px center; /* Adjusted position */
             background-size: 14px;
         }
 
-        .button-group { /* as before */
+        .button-group {
             display: flex;
             justify-content: flex-end;
-            margin-top: 25px;
+            margin-top: 30px; /* Increased margin */
         }
 
-        button { /* as before */
-            background-color: #5a7bb0;
+        button {
+            background-color: #3b82f6; /* Trendy blue button color */
             color: white;
-            padding: 12px 22px;
+            padding: 14px 26px; /* Increased padding */
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
             margin-left: 15px;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); /* Modern button shadow */
         }
 
-        button:hover { /* as before */
-            background-color: #45608a;
+        button:hover {
+            background-color: #2563eb; /* Darker blue on hover */
+            box-shadow: 0 6px 8px rgba(50, 50, 93, 0.13), 0 2px 4px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
+        }
+
+        button:active {
+            transform: scale(0.96); /* More pronounced press effect */
+            background-color: #1e40af; /* Even darker on press */
+            box-shadow: 0 2px 4px rgba(50, 50, 93, 0.15), 0 0px 2px rgba(0, 0, 0, 0.12); /* Reduced shadow on press */
         }
 
         /* Record List Styles */
-        #recordList { /* as before */
-            margin-top: 30px;
+        #recordList {
+            margin-top: 40px; /* Increased margin */
             border: none;
             padding: 0;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 900px;
+            border-radius: 12px; /* More rounded corners */
+            width: 95%; /* Wider record list */
+            max-width: 1100px; /* Increased max-width */
             margin-left: auto;
             margin-right: auto;
         }
 
-        #recordList h2 { /* as before */
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            color: #5a7bb0;
+        #recordList h2 {
+            font-size: 1.8em; /* Larger heading */
+            margin-bottom: 20px; /* Increased margin */
+            color: #3b82f6; /* Trendy blue heading */
             font-weight: 700;
             text-align: left;
         }
 
         /* Table Styles */
-        #recordTable { /* as before */
+        #recordTable {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 10px;
+            border-collapse: collapse; /* Removed separate borders */
+            border-spacing: 0; /* Reset border spacing */
+            border-radius: 10px 10px 0 0; /* Rounded top corners for table */
+            overflow: hidden; /* Ensure rounded corners are applied */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Subtle table shadow */
         }
 
-        #recordTable th, #recordTable td { /* as before */
-            padding: 15px;
+        #recordTable th, #recordTable td {
+            padding: 16px 12px; /* Adjusted padding */
             text-align: left;
-            border: none;
+            border-bottom: 1px solid #e0e0e0; /* Lighter border */
         }
 
-        #recordTable th { /* as before */
-            background-color: #f0f4ff;
-            color: #777;
+        #recordTable th {
+            background-color: #f1f5f9; /* Very light grey header background */
+            color: #71717a; /* Muted header text color */
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.85em;
-            letter-spacing: 0.05em;
+            font-size: 0.9em;
+            letter-spacing: 0.06em;
         }
 
-        #recordTable td { /* as before */
+        #recordTable th:first-child,
+        #recordTable td:first-child {
+            padding-left: 20px; /* Add left padding to the first column */
+        }
+
+        #recordTable th:last-child,
+        #recordTable td:last-child {
+            padding-right: 20px; /* Add right padding to the last column */
+        }
+
+
+        #recordTable td {
             background-color: #fff;
-            color: #555;
-            border-bottom: 1px solid #f0f0f0;
+            color: #495057;
+            transition: background-color 0.2s ease; /* Hover transition */
         }
 
-        #recordTable tr:last-child td { /* as before */
-            border-bottom: none;
+        #recordTable tr:last-child td {
+            border-bottom: none; /* No border for the last row */
         }
 
-        #recordTable tr:hover { /* as before */
-            background-color: #f9f9f9;
+        #recordTable tbody tr:hover td { /* Improved table row hover */
+            background-color: #f8f9fa; /* Very light grey on hover */
         }
 
-        /* Action Buttons */
+        /* Action Buttons in Table */
         .action-buttons {
             display: flex;
-            gap: 5px;
+            gap: 8px; /* Increased gap */
             justify-content: flex-start;
         }
 
         .action-buttons button {
-            background-color: #3498db;
-            color: white;
-            border-radius: 5px;
-            padding: 5px 10px;
+            background-color: transparent; /* No background for icon buttons */
+            color: #6c757d; /* Muted icon color */
             border: none;
+            border-radius: 6px; /* Slightly rounded */
+            padding: 8px; /* Adjusted padding */
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-size: 0.8em;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.1s ease;
+            font-size: 0.9em;
         }
 
         .action-buttons button:hover {
-            background-color: #2980b9;
+            background-color: rgba(59, 130, 246, 0.1); /* Light blue hover background */
+            color: #3b82f6; /* Trendy blue icon color on hover */
         }
+
+        .action-buttons button:active {
+            transform: scale(0.9); /* Press animation */
+        }
+
 
         /* Filter and Search Styles */
         #filterSearch {
-            margin-bottom: 20px;
+            margin-bottom: 25px; /* Increased margin */
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         #filterSearch input[type="text"] {
-            width: 200px;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            width: 250px; /* Wider search input */
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        #filterSearch input[type="text"]:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+            outline: none;
         }
 
         /* Category Filter */
         .filter-select {
-            width: 150px; /* Adjust as needed */
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-right: 10px;
+            width: 180px; /* Wider filter select */
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            margin-right: 15px;
+            font-size: 15px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%236c757d"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 14px;
         }
 
-        #backupRestore { /* as before */
+        .filter-select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+            outline: none;
+        }
+
+
+        #backupRestore { /* as before - no visual changes needed for hidden section */
             margin-top: 30px;
             text-align: center;
             display: none; /* Hidden for Firebase */
         }
 
-        #backupRestore button { /* as before */
+        #backupRestore button { /* as before - buttons already updated */
             margin: 0 10px;
         }
 
-        /* Print Styles */
+        /* Print Styles - No changes needed here as it's for print layout */
         @media print {
             body * {
                 visibility: hidden;
@@ -328,8 +394,68 @@
 
         /* Font Awesome Icons */
         .fa {
-            margin-right: 3px;
+            margin-right: 6px; /* Slightly increased icon margin */
+            opacity: 0.8; /* Slightly muted icons */
         }
+
+        /* Popup Message Styles - Updated for modern look */
+        .popup-message {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 30px; /* Increased padding */
+            border-radius: 12px; /* More rounded corners */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* Deeper shadow */
+            z-index: 1000;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transform: translate(-50%, -50%) scale(0.9); /* Start scaled down more */
+        }
+
+        .popup-message.show {
+            display: block; /* Override hidden */
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1); /* Scale up to normal */
+        }
+
+        .popup-message::backdrop { /* Backdrop for modern browsers - if supported */
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px); /* Optional blur effect for backdrop */
+        }
+
+        .popup-message p {
+            margin-bottom: 25px; /* Increased margin */
+            font-size: 1.15em; /* Slightly larger text */
+            color: #495057;
+        }
+
+        .popup-message button.close-button {
+            background-color: #3b82f6; /* Trendy blue close button */
+            color: white;
+            border: none;
+            padding: 12px 24px; /* Adjusted padding */
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        .popup-message button.close-button:hover {
+            background-color: #2563eb;
+            box-shadow: 0 6px 8px rgba(50, 50, 93, 0.13), 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .popup-message button.close-button:active {
+            transform: scale(0.96);
+            background-color: #1e40af;
+            box-shadow: 0 2px 4px rgba(50, 50, 93, 0.15), 0 0px 2px rgba(0, 0, 0, 0.12);
+        }
+
     </style>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -429,6 +555,12 @@
     <!-- Transfer orders will be dynamically added here -->
 </div>
 
+<!-- Popup Message Structure -->
+<div id="popupMessage" class="popup-message">
+    <p id="popupMessageText">Message content goes here.</p>
+    <button class="close-button" onclick="hidePopupMessage()">Close</button>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>  <!-- Flatpickr JS -->
 
 <!-- Firebase SDK -->
@@ -465,6 +597,30 @@
         return `TRACK-${timestamp}-${random}`.toUpperCase();
     }
 
+    // Function to show popup message
+    function showPopupMessage(message) {
+        const popup = document.getElementById('popupMessage');
+        const popupText = document.getElementById('popupMessageText');
+        popupText.textContent = message;
+        popup.classList.add('show');
+        if (popup.showBackdrop) { // Check if backdrop is supported (more modern browsers)
+            popup.showBackdrop(); // Show backdrop if available
+        } else {
+            // Fallback for browsers that don't support backdrop-filter, you could add a semi-transparent overlay behind the popup if needed for older browsers.
+            // For simplicity, we'll skip the fallback for now as backdrop-filter is widely supported in modern browsers.
+        }
+    }
+
+    // Function to hide popup message
+    function hidePopupMessage() {
+        const popup = document.getElementById('popupMessage');
+        popup.classList.remove('show');
+        if (popup.closeBackdrop) {
+            popup.closeBackdrop(); // Close backdrop if it was shown
+        }
+    }
+
+
     // Function to save a record to Firebase with error handling
     function saveRecord() {
         const driverName = document.getElementById('driverName').value;
@@ -492,25 +648,25 @@
             recordsRef.child(editingKey).update(record)
                 .then(() => {
                     localStorage.removeItem('editingKey');
-                    alert('Record updated successfully!');
+                    showPopupMessage('Record updated successfully!');
                     resetForm();
                     updateRecordTable();
                 })
                 .catch((error) => {
                     console.error("Error updating record:", error);
-                    alert('Failed to update record. See console for details.');
+                    showPopupMessage('Failed to update record. See console for details.');
                 });
         } else {
             // Add new record to Firebase
             recordsRef.push(record)
                 .then(() => {
-                    alert('Record saved successfully!');
+                    showPopupMessage('Record saved successfully!');
                     resetForm();
                     updateRecordTable();
                 })
                 .catch((error) => {
                     console.error("Error saving record:", error);
-                    alert('Failed to save record. See console for details.');
+                    showPopupMessage('Failed to save record. See console for details.');
                 });
         }
     }
@@ -552,9 +708,9 @@
                         <td>${record.status}</td>
                         <td>
                             <div class="action-buttons">
-                                <button onclick="loadRecord('${record.id}')"><i class="fa fa-edit"></i></button>
-                                <button onclick="generateTransferOrder('${record.id}')"><i class="fa fa-print"></i></button>
-                                <button onclick="deleteRecord('${record.id}')"><i class="fa fa-trash"></i></button>
+                                <button title="Edit Record" onclick="loadRecord('${record.id}')"><i class="fa fa-edit"></i></button>
+                                <button title="Print Transfer Order" onclick="generateTransferOrder('${record.id}')"><i class="fa fa-print"></i></button>
+                                <button title="Delete Record" onclick="deleteRecord('${record.id}')"><i class="fa fa-trash"></i></button>
                             </div>
                         </td>
                     `;
@@ -563,7 +719,7 @@
             });
         }, (error) => {
             console.error("Error fetching records:", error);
-            alert('Failed to load records from Firebase. See console for details.');
+            showPopupMessage('Failed to load records from Firebase. See console for details.');
         });
     }
 
@@ -584,7 +740,7 @@
             })
             .catch((error) => {
                 console.error("Error loading record for edit:", error);
-                alert('Failed to load record for editing. See console for details.');
+                showPopupMessage('Failed to load record for editing. See console for details.');
             });
     }
 
@@ -593,12 +749,12 @@
         if (confirm("Are you sure you want to delete this record?")) {
             recordsRef.child(recordId).remove()
                 .then(() => {
-                    alert('Record deleted successfully!');
+                    showPopupMessage('Record deleted successfully!');
                     updateRecordTable(); // Refresh the table
                 })
                 .catch((error) => {
                     console.error("Error deleting record:", error);
-                    alert('Failed to delete record. See console for details.');
+                    showPopupMessage('Failed to delete record. See console for details.');
                 });
         }
     }
@@ -625,7 +781,7 @@
                 })
                 .catch((error) => {
                     console.error("Error fetching record for print:", error);
-                    alert('Failed to fetch record for printing. See console for details.');
+                    showPopupMessage('Failed to fetch record for printing. See console for details.');
                 });
         } else { // If no recordId (print from form)
             const driverName = document.getElementById('driverName').value;
