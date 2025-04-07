@@ -465,7 +465,7 @@
         return `TRACK-${timestamp}-${random}`.toUpperCase();
     }
 
-    // Function to save a record to Firebase
+    // Function to save a record to Firebase with error handling
     function saveRecord() {
         const driverName = document.getElementById('driverName').value;
         const branch = document.getElementById('branch').value;
@@ -498,7 +498,7 @@
                 })
                 .catch((error) => {
                     console.error("Error updating record:", error);
-                    alert('Failed to update record.');
+                    alert('Failed to update record. See console for details.');
                 });
         } else {
             // Add new record to Firebase
@@ -510,13 +510,13 @@
                 })
                 .catch((error) => {
                     console.error("Error saving record:", error);
-                    alert('Failed to save record.');
+                    alert('Failed to save record. See console for details.');
                 });
         }
     }
 
 
-    // Function to update the record table from Firebase
+    // Function to update the record table from Firebase with error handling
     function updateRecordTable() {
         const recordTableBody = document.getElementById('recordTableBody');
         recordTableBody.innerHTML = ''; // Clear the table body
@@ -563,30 +563,32 @@
             });
         }, (error) => {
             console.error("Error fetching records:", error);
-            alert('Failed to load records from Firebase.');
+            alert('Failed to load records from Firebase. See console for details.');
         });
     }
 
-    // Function to load a record into the form for editing from Firebase
+    // Function to load a record into the form for editing from Firebase with error handling
     function loadRecord(recordId) {
-        recordsRef.child(recordId).once('value', (snapshot) => {
-            const record = snapshot.val();
-            if (record) {
-                document.getElementById('driverName').value = record.driverName;
-                document.getElementById('branch').value = record.branch;
-                document.getElementById('date').value = record.date;
-                document.getElementById('description').value = record.description;
-                document.getElementById('status').value = record.status;
+        recordsRef.child(recordId).once('value')
+            .then((snapshot) => {
+                const record = snapshot.val();
+                if (record) {
+                    document.getElementById('driverName').value = record.driverName;
+                    document.getElementById('branch').value = record.branch;
+                    document.getElementById('date').value = record.date;
+                    document.getElementById('description').value = record.description;
+                    document.getElementById('status').value = record.status;
 
-                localStorage.setItem('editingKey', recordId); // Store Firebase key for editing
-            }
-        }, (error) => {
-            console.error("Error loading record for edit:", error);
-            alert('Failed to load record for editing.');
-        });
+                    localStorage.setItem('editingKey', recordId); // Store Firebase key for editing
+                }
+            })
+            .catch((error) => {
+                console.error("Error loading record for edit:", error);
+                alert('Failed to load record for editing. See console for details.');
+            });
     }
 
-    // Function to delete a record from Firebase
+    // Function to delete a record from Firebase with error handling
     function deleteRecord(recordId) {
         if (confirm("Are you sure you want to delete this record?")) {
             recordsRef.child(recordId).remove()
@@ -596,33 +598,35 @@
                 })
                 .catch((error) => {
                     console.error("Error deleting record:", error);
-                    alert('Failed to delete record.');
+                    alert('Failed to delete record. See console for details.');
                 });
         }
     }
 
-    // Modify the print function to load the proper index
+    // Modify the print function to load the proper index with error handling
     function generateTransferOrder(recordId = null) {
         let printRecord;
 
         if (recordId) { // If recordId is provided (from table print)
-            recordsRef.child(recordId).once('value', (snapshot) => {
-                printRecord = snapshot.val();
-                if (printRecord) {
-                    printTheRecord(
-                        printRecord.driverName,
-                        printRecord.branch,
-                        printRecord.date,
-                        printRecord.description,
-                        printRecord.status,
-                        printRecord.trackingNumber,
-                        printRecord.creationTimestamp
-                    );
-                }
-            }, (error) => {
-                console.error("Error fetching record for print:", error);
-                alert('Failed to fetch record for printing.');
-            });
+            recordsRef.child(recordId).once('value')
+                .then((snapshot) => {
+                    printRecord = snapshot.val();
+                    if (printRecord) {
+                        printTheRecord(
+                            printRecord.driverName,
+                            printRecord.branch,
+                            printRecord.date,
+                            printRecord.description,
+                            printRecord.status,
+                            printRecord.trackingNumber,
+                            printRecord.creationTimestamp
+                        );
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching record for print:", error);
+                    alert('Failed to fetch record for printing. See console for details.');
+                });
         } else { // If no recordId (print from form)
             const driverName = document.getElementById('driverName').value;
             const branch = document.getElementById('branch').value;
@@ -636,7 +640,7 @@
         }
     }
 
-    // Function to print the record
+    // Function to print the record (no changes needed here)
     function printTheRecord(driverName, branch, date, description, status, trackingNumber, creationTimestamp) {
         let printSectionHTML = `
          <div class="version-number">v 1.1</div>
@@ -673,7 +677,7 @@
     }
 
 
-    // Function to reset the form (same as before)
+    // Function to reset the form (no changes needed here)
     function resetForm() {
         document.getElementById('driverName').value = '';
         document.getElementById('branch').value = '';
@@ -684,12 +688,27 @@
     }
 
 
-    // Combined Search and Category filter (same as before)
+    // Combined Search and Category filter (no changes needed here)
     document.getElementById('searchTerms').addEventListener('input', updateRecordTable);
     document.getElementById('categoryFilter').addEventListener('change', updateRecordTable);
 
-    // Initialize record list on page load (same as before)
+    // Initialize record list on page load (no changes needed here)
     updateRecordTable();
+
+    // --- Firebase Read Test (for debugging) ---
+    recordsRef.limitToFirst(1).once('value')
+        .then(snapshot => {
+            if (snapshot.exists()) {
+                console.log("Firebase Read Test: Successfully read data:", snapshot.val());
+            } else {
+                console.log("Firebase Read Test: No data found at /transferRecords");
+            }
+        })
+        .catch(error => {
+            console.error("Firebase Read Test Error:", error);
+        });
+    // --- End Firebase Read Test ---
+
 </script>
 </body>
 </html>
