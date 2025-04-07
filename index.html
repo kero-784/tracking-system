@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Tracking System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">  <!-- Flatpickr CSS -->
+    <style>
+        /* General Styles (same as before) */
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eef5ff;
+            color: #333;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .container { /* as before */
+            width: 90%;
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 { /* as before */
+            text-align: center;
+            color: #5a7bb0;
+            margin-bottom: 25px;
+            font-size: 2.2em;
+            font-weight: 700;
+            mso-spacerun:yes;
+        }
+
+        label { /* as before */
+            display: block;
+            margin-bottom: 8px;
+            color: #666;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .form-row { /* as before */
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-row > div { /* as before */
+            flex: 1;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        select { /* as before */
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 15px;
+            color: #555;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        textarea:focus,
+        select:focus { /* as before */
+            border-color: #5a7bb0;
+            outline: none;
+        }
+
+        textarea { /* as before */
+            resize: vertical;
+            height: 100px;
+        }
+
+        select { /* as before */
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23666"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 14px;
+        }
+
+        .button-group { /* as before */
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+
+        button { /* as before */
+            background-color: #5a7bb0;
+            color: white;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin-left: 15px;
+        }
+
+        button:hover { /* as before */
+            background-color: #45608a;
+        }
+
+        /* Record List Styles */
+        #recordList { /* as before */
+            margin-top: 30px;
+            border: none;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #recordList h2 { /* as before */
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #5a7bb0;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        /* Table Styles */
+        #recordTable { /* as before */
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        #recordTable th, #recordTable td { /* as before */
+            padding: 15px;
+            text-align: left;
+            border: none;
+        }
+
+        #recordTable th { /* as before */
+            background-color: #f0f4ff;
+            color: #777;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 0.05em;
+        }
+
+        #recordTable td { /* as before */
+            background-color: #fff;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        #recordTable tr:last-child td { /* as before */
+            border-bottom: none;
+        }
+
+        #recordTable tr:hover { /* as before */
+            background-color: #f9f9f9;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            justify-content: flex-start;
+        }
+
+        .action-buttons button {
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 0.8em;
+        }
+
+        .action-buttons button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Filter and Search Styles */
+        #filterSearch {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #filterSearch input[type="text"] {
+            width: 200px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        /* Category Filter */
+        .filter-select {
+            width: 150px; /* Adjust as needed */
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        #backupRestore { /* as before */
+            margin-top: 30px;
+            text-align: center;
+            display: none; /* Hidden for Firebase */
+        }
+
+        #backupRestore button { /* as before */
+            margin: 0 10px;
+        }
+
+        /* Print Styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            .print-section, .print-section * {
+                visibility: visible;
+            }
+
+            .print-section {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                font-size: 10pt;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center; /* Center horizontally */
+            }
+
+            .container {
+                display: none;
+            }
+
+            .transfer-order {
+                /*Page size */
+                width: 283.46px; /*10cm*/
+                height: 708.66px; /* 25cm */
+                margin: 10px 0;
+                padding: 15px;
+                border: 1px solid #000;
+                border-radius: 10px;
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+                page-break-inside: avoid;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: stretch; /* Stretch items to fit the width */
+            }
+
+            .transfer-order h2 {
+                font-size: 1.1em; /* Reduced h2 size */
+                text-align: center;
+                margin-bottom: 8px; /* Reduced margin */
+                color: #000;
+                border-bottom: 1px solid #ddd; /* Reduced border */
+                padding-bottom: 5px; /* Reduced padding */
+            }
+
+            .transfer-order-item {
+                border: 1px solid #ddd;
+                padding: 6px; /* Further reduced padding */
+                margin-bottom: 6px; /* Further reduced margin */
+                border-radius: 3px; /* Reduced border-radius */
+                background-color: #f9f9f9;
+                font-size: 0.8em; /*Reduced font size */
+                word-wrap: break-word;
+                /*Prevent overflow */
+            }
+
+            .transfer-order-item strong {
+                font-weight: bold;
+                margin-right: 3px; /* Reduced margin */
+                color: #444;
+            }
+
+            .signature-line {
+                border-bottom: 1px dashed #777;
+                padding-bottom: 2px; /* Reduced padding */
+                width: 70%;
+                margin-top: 10px; /* Reduced margin */
+            }
+
+            .signature {
+                font-size: 0.8em;
+                /*Adjust as necessary */
+            }
+
+            /*Version number */
+            .version-number {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                font-size: 0.8em;
+                color: #555;
+            }
+
+            .second-driver-signature {
+                margin-top: 20px;
+            }
+        }
+
+        /* Font Awesome Icons */
+        .fa {
+            margin-right: 3px;
+        }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <h1><i class="fa fa-file-alt"></i> Document Transfer Order</h1>
+
+    <div class="form-row">
+        <div>
+            <label for="driverName"><i class="fa fa-user"></i> Driver Name:</label>
+            <input type="text" id="driverName" name="driverName" required>
+        </div>
+        <div>
+            <label for="branch"><i class="fa fa-building"></i> Branch to Send:</label>
+            <select id="branch" name="branch" required>
+                <option value="" disabled selected>اختر الفرع</option>
+                <option value="نادى هليوبوليس">نادى هليوبوليس</option>
+                <option value="تلال السخنه">تلال السخنه</option>
+                <option value="جاردنز السخنه">جاردنز السخنه</option>
+                <option value="لازوردی بای">لازوردی بای</option>
+                <option value="الدبلوماسيين">الدبلوماسيين</option>
+                <option value="ستيلا">ستيلا</option>
+                <option value="كاسكادا">كاسكادا</option>
+                <option value="تلال الساحل">تلال السخنه</option>
+                <option value="لافيستا بای">لافيستا بای</option>
+                <option value="سوان ليك">سوان ليك</option>
+                <option value="الافيستا رأس الحكمة">الافيستا رأس الحكمة</option>
+                <option value="دبلوماسيين - خضار">دبلوماسيين - خضار</option>
+                <option value="هاسيندا ريد - خضار">هاسيندا ريد - خضار</option>
+                <option value="القطامية">القطامية</option>
+                <option value="بالم هيلز رايد">بالم هيلز رايد</option>
+            </select>
+        </div>
+        <div>
+            <label for="date"><i class="fa fa-calendar-alt"></i> Date:</label>
+            <input type="text" id="date" name="date" required>
+        </div>
+    </div>
+
+    <label for="description"><i class="fa fa-file-text"></i> Document Description:</label>
+    <textarea id="description" name="description" rows="3" required></textarea>
+
+    <label for="status"><i class="fa fa-tasks"></i> Status:</label>
+    <select id="status" name="status">
+        <option value="Pending">Pending</option>
+        <option value="In Transit">In Transit</option>
+        <option value="Delivered">Delivered</option>
+        <option value="Problem">Problem</option>
+    </select>
+
+    <div class="button-group">
+        <button onclick="saveRecord()"><i class="fa fa-save"></i> Save Record</button>
+        <button onclick="generateTransferOrder()"><i class="fa fa-print"></i> Print Transfer Order</button>
+        <button onclick="resetForm()"><i class="fa fa-undo"></i> Reset Form</button>
+    </div>
+</div>
+
+<div id="recordList">
+    <h2><i class="fa fa-list"></i> Saved Records</h2>
+
+    <div id="filterSearch">
+        <select id="categoryFilter" class="filter-select">
+            <option value="">All Categories</option>
+            <option value="driverName">Driver Name</option>
+            <option value="status">Status</option>
+        </select>
+        <input type="text" id="searchTerms" placeholder="Search Terms">
+    </div>
+
+    <table id="recordTable">
+        <thead>
+        <tr>
+            <th><i class="fa fa-hashtag"></i> Tracking Number</th>
+            <th><i class="fa fa-user"></i> Driver Name</th>
+            <th><i class="fa fa-calendar-alt"></i> Date</th>
+            <th><i class="fa fa-tasks"></i> Status</th>
+            <th><i class="fa fa-cog"></i> Actions</th>
+        </tr>
+        </thead>
+        <tbody id="recordTableBody">
+        <!-- Records will be listed here -->
+        </tbody>
+    </table>
+</div>
+
+<div id="backupRestore" style="display:none;">  <!-- Hide Backup/Restore for Firebase -->
+    <h2><i class="fa fa-database"></i> Backup & Restore</h2>
+    <button onclick="backupData()"><i class="fa fa-download"></i> Backup Data</button>
+    <button onclick="restoreData()"><i class="fa fa-upload"></i> Restore Data</button>
+</div>
+
+<div class="print-section" id="printSection">
+    <!-- Transfer orders will be dynamically added here -->
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>  <!-- Flatpickr JS -->
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+    // Initialize Flatpickr
+    flatpickr("#date", {
+        dateFormat: "Y-m-d",
+    });
+
+    // Firebase Configuration (USE YOUR PROVIDED CONFIGURATION)
+    const firebaseConfig = {
+        apiKey: "AIzaSyBAywYLzQk44GJVMKJC0di8RHjSh1ItBhM",
+        authDomain: "tracking-system-67ff4.firebaseapp.com",
+        projectId: "tracking-system-67ff4",
+        storageBucket: "tracking-system-67ff4.firebasestorage.app",
+        messagingSenderId: "285161375873",
+        appId: "1:285161375873:web:64610062916c214c3e2580",
+        measurementId: "G-KN49MHH1EC"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database(app);
+    const recordsRef = database.ref('transferRecords'); // Reference to your data in Firebase Realtime Database
+
+
+    // Function to generate a unique tracking number (same as before)
+    function generateTrackingNumber() {
+        const timestamp = Date.now().toString(36);
+        const random = Math.random().toString(36).substring(2, 7);
+        return `TRACK-${timestamp}-${random}`.toUpperCase();
+    }
+
+    // Function to save a record to Firebase
+    function saveRecord() {
+        const driverName = document.getElementById('driverName').value;
+        const branch = document.getElementById('branch').value;
+        const date = document.getElementById('date').value;
+        const description = document.getElementById('description').value;
+        const status = document.getElementById('status').value;
+        const trackingNumber = generateTrackingNumber();
+        const creationTimestamp = new Date().toLocaleString();
+
+        const record = {
+            trackingNumber: trackingNumber,
+            creationTimestamp: creationTimestamp,
+            driverName: driverName,
+            branch: branch,
+            date: date,
+            description: description,
+            status: status
+        };
+
+        const editingKey = localStorage.getItem('editingKey');
+
+        if (editingKey) {
+            // Update existing record in Firebase
+            recordsRef.child(editingKey).update(record)
+                .then(() => {
+                    localStorage.removeItem('editingKey');
+                    alert('Record updated successfully!');
+                    resetForm();
+                    updateRecordTable();
+                })
+                .catch((error) => {
+                    console.error("Error updating record:", error);
+                    alert('Failed to update record.');
+                });
+        } else {
+            // Add new record to Firebase
+            recordsRef.push(record)
+                .then(() => {
+                    alert('Record saved successfully!');
+                    resetForm();
+                    updateRecordTable();
+                })
+                .catch((error) => {
+                    console.error("Error saving record:", error);
+                    alert('Failed to save record.');
+                });
+        }
+    }
+
+
+    // Function to update the record table from Firebase
+    function updateRecordTable() {
+        const recordTableBody = document.getElementById('recordTableBody');
+        recordTableBody.innerHTML = ''; // Clear the table body
+
+        const searchTerm = document.getElementById('searchTerms').value.toUpperCase();
+        const category = document.getElementById('categoryFilter').value;
+
+        recordsRef.on('value', (snapshot) => {
+            const recordsData = snapshot.val();
+            let recordsArray = [];
+
+            if (recordsData) {
+                // Convert object to array for easier iteration
+                recordsArray = Object.entries(recordsData).map(([key, value]) => ({ id: key, ...value }));
+            }
+
+            recordsArray.forEach((record) => {
+                let match = true;
+
+                if (searchTerm && category) {
+                    const recordValue = String(record[category]).toUpperCase();
+                    if (!recordValue.includes(searchTerm)) {
+                        match = false;
+                    }
+                }
+
+                if (match) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${record.trackingNumber}</td>
+                        <td>${record.driverName}</td>
+                        <td>${record.date}</td>
+                        <td>${record.status}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button onclick="loadRecord('${record.id}')"><i class="fa fa-edit"></i></button>
+                                <button onclick="generateTransferOrder('${record.id}')"><i class="fa fa-print"></i></button>
+                                <button onclick="deleteRecord('${record.id}')"><i class="fa fa-trash"></i></button>
+                            </div>
+                        </td>
+                    `;
+                    recordTableBody.appendChild(row);
+                }
+            });
+        }, (error) => {
+            console.error("Error fetching records:", error);
+            alert('Failed to load records from Firebase.');
+        });
+    }
+
+    // Function to load a record into the form for editing from Firebase
+    function loadRecord(recordId) {
+        recordsRef.child(recordId).once('value', (snapshot) => {
+            const record = snapshot.val();
+            if (record) {
+                document.getElementById('driverName').value = record.driverName;
+                document.getElementById('branch').value = record.branch;
+                document.getElementById('date').value = record.date;
+                document.getElementById('description').value = record.description;
+                document.getElementById('status').value = record.status;
+
+                localStorage.setItem('editingKey', recordId); // Store Firebase key for editing
+            }
+        }, (error) => {
+            console.error("Error loading record for edit:", error);
+            alert('Failed to load record for editing.');
+        });
+    }
+
+    // Function to delete a record from Firebase
+    function deleteRecord(recordId) {
+        if (confirm("Are you sure you want to delete this record?")) {
+            recordsRef.child(recordId).remove()
+                .then(() => {
+                    alert('Record deleted successfully!');
+                    updateRecordTable(); // Refresh the table
+                })
+                .catch((error) => {
+                    console.error("Error deleting record:", error);
+                    alert('Failed to delete record.');
+                });
+        }
+    }
+
+    // Modify the print function to load the proper index
+    function generateTransferOrder(recordId = null) {
+        let printRecord;
+
+        if (recordId) { // If recordId is provided (from table print)
+            recordsRef.child(recordId).once('value', (snapshot) => {
+                printRecord = snapshot.val();
+                if (printRecord) {
+                    printTheRecord(
+                        printRecord.driverName,
+                        printRecord.branch,
+                        printRecord.date,
+                        printRecord.description,
+                        printRecord.status,
+                        printRecord.trackingNumber,
+                        printRecord.creationTimestamp
+                    );
+                }
+            }, (error) => {
+                console.error("Error fetching record for print:", error);
+                alert('Failed to fetch record for printing.');
+            });
+        } else { // If no recordId (print from form)
+            const driverName = document.getElementById('driverName').value;
+            const branch = document.getElementById('branch').value;
+            const date = document.getElementById('date').value;
+            const description = document.getElementById('description').value;
+            const status = document.getElementById('status').value;
+            const trackingNumber = generateTrackingNumber();
+            const creationTimestamp = new Date().toLocaleString();
+            printTheRecord(driverName, branch, date, description, status, trackingNumber, creationTimestamp);
+            saveRecord(); // Optionally save before printing if printing from form
+        }
+    }
+
+    // Function to print the record
+    function printTheRecord(driverName, branch, date, description, status, trackingNumber, creationTimestamp) {
+        let printSectionHTML = `
+         <div class="version-number">v 1.1</div>
+         `;
+
+        // Create two copies of the transfer order
+        for (let i = 0; i < 2; i++) {
+            printSectionHTML += `
+                <div class="transfer-order">
+                    <h2>Document Transfer Order</h2>
+                     <div class="transfer-order-item"><strong>Tracking Number:</strong> ${trackingNumber}</div>
+                    <div class="transfer-order-item"><strong>Date/Time Created:</strong> ${creationTimestamp}</div>
+                    <div class="transfer-order-item"><strong>Driver Name:</strong> ${driverName}</div>
+                    <div class="transfer-order-item"><strong>Branch:</strong> ${branch}</div>
+                    <div class="transfer-order-item"><strong>Date:</strong> ${date}</div>
+                    <div class="transfer-order-item"><strong>Description:</strong> ${description}</div>
+                    <div class="transfer-order-item"><strong>Status:</strong> ${status}</div>
+                    <div class="transfer-order-item"><strong>Transfer Order Copy:</strong> ${i === 0 ? 'User' : 'Driver'}</div>
+                     <p class="signature"><strong>First Driver Signature:</strong> <span class="signature-line"></span></p>
+                    <p class="signature second-driver-signature"><strong>Second Driver Signature:</strong> <span class="signature-line"></span></p>
+                    <p class="signature"><strong>Receiver Signature:</strong> <span class="signature-line"></span></p>
+                    <p class="signature"><strong>Date Received:</strong> <span class="signature-line"></span></p>
+                </div>
+            `;
+            if (i === 0) {
+                printSectionHTML += `<div style="page-break-after: always;"></div>`;  // page break after the first copy
+            }
+        }
+
+        document.getElementById('printSection').innerHTML = printSectionHTML;
+        document.getElementById('printSection').style.display = 'block';
+        window.print();
+        document.getElementById('printSection').style.display = 'none';
+    }
+
+
+    // Function to reset the form (same as before)
+    function resetForm() {
+        document.getElementById('driverName').value = '';
+        document.getElementById('branch').value = '';
+        document.getElementById('date').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('status').value = 'Pending';
+        localStorage.removeItem('editingKey'); //Clear editing key
+    }
+
+
+    // Combined Search and Category filter (same as before)
+    document.getElementById('searchTerms').addEventListener('input', updateRecordTable);
+    document.getElementById('categoryFilter').addEventListener('change', updateRecordTable);
+
+    // Initialize record list on page load (same as before)
+    updateRecordTable();
+</script>
+</body>
+</html>
