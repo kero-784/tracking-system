@@ -3,869 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document Tracking System</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">  <!-- Flatpickr CSS -->
-    <style>
-        /* Modernized General Styles */
-        body {
-            font-family: 'Nunito', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa; /* Lighter background */
-            color: #495057; /* Slightly darker, modern text color */
-            line-height: 1.7; /* Improved line height for readability */
-            font-size: 15px; /* Slightly larger base font size */
-            -webkit-font-smoothing: antialiased; /* For smoother fonts on webkit browsers */
-            -moz-osx-font-smoothing: grayscale; /* For smoother fonts on Firefox */
-        }
-
-        .container {
-            width: 95%; /* Wider container on larger screens */
-            max-width: 1100px; /* Increased max-width */
-            margin: 30px auto; /* More top and bottom margin */
-            background-color: #fff;
-            padding: 40px; /* Increased padding */
-            border-radius: 12px; /* More rounded corners */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* Softer, more modern shadow */
-            transition: box-shadow 0.3s ease; /* Transition for container shadow */
-        }
-
-        .container:hover {
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1); /* Slightly enhanced shadow on hover */
-        }
-
-        h1 {
-            text-align: center;
-            color: #3b82f6; /* Trendy blue color */
-            margin-bottom: 30px; /* Increased margin */
-            font-size: 2.5em; /* Slightly larger title */
-            font-weight: 700;
-            mso-spacerun:yes;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px; /* Increased margin */
-            color: #6c757d; /* Muted label color */
-            font-weight: 600;
-            font-size: 0.95em;
-            transition: color 0.3s ease; /* Transition for label color */
-        }
-
-        label:hover {
-            color: #495057; /* Darken label color on hover */
-        }
-
-
-        .form-row {
-            display: flex;
-            gap: 25px; /* Increased gap */
-            margin-bottom: 25px; /* Increased margin */
-        }
-
-        .form-row > div {
-            flex: 1;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 14px; /* Increased padding */
-            margin-bottom: 0;
-            border: 1px solid #ced4da; /* Light grey border */
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 16px; /* Slightly larger font size */
-            color: #495057;
-            background-color: #f8f9fa; /* Light background for inputs */
-            transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
-        }
-
-        input[type="text"]:focus,
-        input[type="date"]:focus,
-        textarea:focus,
-        select:focus {
-            border-color: #3b82f6; /* Trendy blue focus color */
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); /* Subtle focus ring */
-            background-color: #fff; /* White background on focus */
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 120px; /* Increased min-height */
-        }
-
-        select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%236c757d"><path d="M7 10l5 5 5-5z"/></svg>'); /* Muted dropdown arrow */
-            background-repeat: no-repeat;
-            background-position: right 14px center; /* Adjusted position */
-            background-size: 14px;
-        }
-
-        .button-group {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 30px; /* Increased margin */
-        }
-
-        button {
-            background-color: #3b82f6; /* Trendy blue button color */
-            color: white;
-            padding: 14px 26px; /* Increased padding */
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
-            margin-left: 15px;
-            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); /* Modern button shadow */
-        }
-
-        button:hover {
-            background-color: #2563eb; /* Darker blue on hover */
-            box-shadow: 0 6px 8px rgba(50, 50, 93, 0.13), 0 2px 4px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
-        }
-
-        button:active {
-            transform: scale(0.96); /* More pronounced press effect */
-            background-color: #1e40af; /* Even darker on press */
-            box-shadow: 0 2px 4px rgba(50, 50, 93, 0.15), 0 0px 2px rgba(0, 0, 0, 0.12); /* Reduced shadow on press */
-        }
-
-        /* Record List Styles */
-        #recordList {
-            margin-top: 40px; /* Increased margin */
-            border: none;
-            padding: 0;
-            border-radius: 12px; /* More rounded corners */
-            width: 95%; /* Wider record list */
-            max-width: 1100px; /* Increased max-width */
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        #recordList h2 {
-            font-size: 1.8em; /* Larger heading */
-            margin-bottom: 20px; /* Increased margin */
-            color: #3b82f6; /* Trendy blue heading */
-            font-weight: 700;
-            text-align: left;
-        }
-
-        /* Table Styles */
-        #recordTable {
-            width: 100%;
-            border-collapse: collapse; /* Removed separate borders */
-            border-spacing: 0; /* Reset border spacing */
-            border-radius: 10px 10px 0 0; /* Rounded top corners for table */
-            overflow: hidden; /* Ensure rounded corners are applied */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Subtle table shadow */
-        }
-
-        #recordTable th, #recordTable td {
-            padding: 16px 12px; /* Adjusted padding */
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0; /* Lighter border */
-        }
-
-        #recordTable th {
-            background-color: #f1f5f9; /* Very light grey header background */
-            color: #71717a; /* Muted header text color */
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.9em;
-            letter-spacing: 0.06em;
-        }
-
-        #recordTable th:first-child,
-        #recordTable td:first-child {
-            padding-left: 20px; /* Add left padding to the first column */
-        }
-
-        #recordTable th:last-child,
-        #recordTable td:last-child {
-            padding-right: 20px; /* Add right padding to the last column */
-        }
-
-
-        #recordTable td {
-            background-color: #fff;
-            color: #495057;
-            transition: background-color 0.2s ease; /* Hover transition */
-        }
-
-        #recordTable tr:last-child td {
-            border-bottom: none; /* No border for the last row */
-        }
-
-        #recordTable tbody tr:hover td { /* Improved table row hover */
-            background-color: #f8f9fa; /* Very light grey on hover */
-        }
-
-        /* Action Buttons in Table */
-        .action-buttons {
-            display: flex;
-            gap: 8px; /* Increased gap */
-            justify-content: flex-start;
-        }
-
-        .action-buttons button {
-            background-color: transparent; /* No background for icon buttons */
-            color: #6c757d; /* Muted icon color */
-            border: none;
-            border-radius: 6px; /* Slightly rounded */
-            padding: 8px; /* Adjusted padding */
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.1s ease;
-            font-size: 0.9em;
-        }
-
-        .action-buttons button:hover {
-            background-color: rgba(59, 130, 246, 0.1); /* Light blue hover background */
-            color: #3b82f6; /* Trendy blue icon color on hover */
-        }
-
-        .action-buttons button:active {
-            transform: scale(0.9); /* Press animation */
-        }
-
-
-        /* Filter and Search Styles */
-        #filterSearch {
-            margin-bottom: 25px; /* Increased margin */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #filterSearch input[type="text"] {
-            width: 250px; /* Wider search input */
-            padding: 12px;
-            border: 1px solid #ced4da;
-            border-radius: 8px;
-            font-size: 15px;
-        }
-
-        #filterSearch input[type="text"]:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-            outline: none;
-        }
-
-        /* Category Filter */
-        .filter-select {
-            width: 180px; /* Wider filter select */
-            padding: 12px;
-            border: 1px solid #ced4da;
-            border-radius: 8px;
-            margin-right: 15px;
-            font-size: 15px;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%236c757d"><path d="M7 10l5 5 5-5z"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 14px;
-        }
-
-        .filter-select:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-            outline: none;
-        }
-
-
-        #backupRestore { /* as before - no visual changes needed for hidden section */
-            margin-top: 30px;
-            text-align: center;
-            display: none; /* Hidden for Firebase */
-        }
-
-        #backupRestore button { /* as before - buttons already updated */
-            margin: 0 10px;
-        }
-
-        /* Print Styles - No changes needed here as it's for print layout */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-
-            .print-section, .print-section * {
-                visibility: visible;
-            }
-
-            .print-section {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                font-size: 10pt;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: center; /* Center horizontally */
-            }
-
-            .container {
-                display: none;
-            }
-
-            .transfer-order {
-                /*Page size */
-                width: 283.46px; /*10cm*/
-                height: 708.66px; /* 25cm */
-                margin: 10px 0;
-                padding: 15px;
-                border: 1px solid #000;
-                border-radius: 10px;
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-                page-break-inside: avoid;
-                box-sizing: border-box;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                align-items: stretch; /* Stretch items to fit the width */
-            }
-
-            .transfer-order h2 {
-                font-size: 1.1em; /* Reduced h2 size */
-                text-align: center;
-                margin-bottom: 8px; /* Reduced margin */
-                color: #000;
-                border-bottom: 1px solid #ddd; /* Reduced border */
-                padding-bottom: 5px; /* Reduced padding */
-            }
-
-            .transfer-order-item {
-                border: 1px solid #ddd;
-                padding: 6px; /* Further reduced padding */
-                margin-bottom: 6px; /* Further reduced margin */
-                border-radius: 3px; /* Reduced border-radius */
-                background-color: #f9f9f9;
-                font-size: 0.8em; /*Reduced font size */
-                word-wrap: break-word;
-                /*Prevent overflow */
-            }
-
-            .transfer-order-item strong {
-                font-weight: bold;
-                margin-right: 3px; /* Reduced margin */
-                color: #444;
-            }
-
-            .signature-line {
-                border-bottom: 1px dashed #777;
-                padding-bottom: 2px; /* Reduced padding */
-                width: 70%;
-                margin-top: 10px; /* Reduced margin */
-            }
-
-            .signature {
-                font-size: 0.8em;
-                /*Adjust as necessary */
-            }
-
-            /*Version number */
-            .version-number {
-                position: absolute;
-                top: 10px;
-                left: 10px;
-                font-size: 0.8em;
-                color: #555;
-            }
-
-            .second-driver-signature {
-                margin-top: 20px;
-            }
-        }
-
-        /* Font Awesome Icons */
-        .fa {
-            margin-right: 6px; /* Slightly increased icon margin */
-            opacity: 0.8; /* Slightly muted icons */
-        }
-
-        /* Popup Message Styles - Updated for modern look */
-        .popup-message {
-            display: none; /* Initially hidden */
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            padding: 30px; /* Increased padding */
-            border-radius: 12px; /* More rounded corners */
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* Deeper shadow */
-            z-index: 1000;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-            transform: translate(-50%, -50%) scale(0.9); /* Start scaled down more */
-        }
-
-        .popup-message.show {
-            display: block; /* Override hidden */
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1); /* Scale up to normal */
-        }
-
-        .popup-message::backdrop { /* Backdrop for modern browsers - if supported */
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px); /* Optional blur effect for backdrop */
-        }
-
-        .popup-message p {
-            margin-bottom: 25px; /* Increased margin */
-            font-size: 1.15em; /* Slightly larger text */
-            color: #495057;
-        }
-
-        .popup-message button.close-button {
-            background-color: #3b82f6; /* Trendy blue close button */
-            color: white;
-            border: none;
-            padding: 12px 24px; /* Adjusted padding */
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-        }
-
-        .popup-message button.close-button:hover {
-            background-color: #2563eb;
-            box-shadow: 0 6px 8px rgba(50, 50, 93, 0.13), 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .popup-message button.close-button:active {
-            transform: scale(0.96);
-            background-color: #1e40af;
-            box-shadow: 0 2px 4px rgba(50, 50, 93, 0.15), 0 0px 2px rgba(0, 0, 0, 0.12);
-        }
-
-    </style>
-
+    <title> Tracker </title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <style>
+        body{font-family:'Nunito',sans-serif;margin:0;padding:0;background-color:#f8f9fa;color:#495057;line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased}.container{width:95%;max-width:1100px;margin:30px auto;background-color:#fff;padding:40px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,.08)}h1{text-align:center;color:#3b82f6;margin-bottom:30px;font-size:2.5em;font-weight:700}label{display:block;margin-bottom:10px;color:#6c757d;font-weight:600;font-size:.95em}.form-row{display:flex;flex-wrap:wrap;gap:25px;margin-bottom:25px}.form-row>div{flex:1;min-width:250px}input[type=text],input[type=date],textarea,select{width:100%;padding:14px;margin-bottom:0;border:1px solid #ced4da;border-radius:8px;box-sizing:border-box;font-size:16px;color:#495057;background-color:#f8f9fa;transition:border-color .3s ease,box-shadow .3s ease}input[type=text]:focus,input[type=date]:focus,textarea:focus,select:focus{border-color:#3b82f6;outline:0;box-shadow:0 0 0 2px rgba(59,130,246,.2);background-color:#fff}textarea{resize:vertical;min-height:120px}#branch-checkboxes{max-height:200px;overflow-y:auto;border:1px solid #ced4da;border-radius:8px;padding:15px;background-color:#f8f9fa}.checkbox-label{display:block;margin-bottom:8px;cursor:pointer;font-weight:400}.checkbox-label input{margin-right:10px;vertical-align:middle;transform:scale(1.1)}.button-group{display:flex;justify-content:flex-end;margin-top:30px}button{background-color:#3b82f6;color:#fff;padding:12px 24px;border:none;border-radius:8px;cursor:pointer;font-size:16px;font-weight:600;transition:all .2s ease;margin-left:15px;box-shadow:0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08)}button:hover{background-color:#2563eb;transform:translateY(-1px);box-shadow:0 6px 8px rgba(50,50,93,.13),0 2px 4px rgba(0,0,0,.1)}button:active{transform:translateY(1px)}#recordList{margin-top:40px;border:none;padding:0;width:95%;max-width:1100px;margin-left:auto;margin-right:auto}.record-list-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:15px}#recordList h2{font-size:1.8em;color:#3b82f6;font-weight:700;margin:0}#recordTable{width:100%;border-collapse:collapse;border-spacing:0;border-radius:10px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.05)}#recordTable th,#recordTable td{padding:14px;text-align:left;border-bottom:1px solid #e9ecef}#recordTable th{background-color:#f8f9fa;color:#6c757d;font-weight:600;text-transform:uppercase;font-size:.85em;letter-spacing:.05em}#recordTable td{background-color:#fff;color:#495057;transition:background-color .2s ease}#recordTable tbody tr:hover td{background-color:#f1f5f9}.action-buttons{display:flex;gap:8px}.action-buttons button{padding:8px;background-color:transparent;color:#6c757d;font-size:.9em;box-shadow:none}.action-buttons button:hover{background-color:rgba(59,130,246,.1);color:#3b82f6;transform:none}.status-select{padding:6px 10px;border-radius:6px;border:1px solid #ced4da;background-color:#fff}th.checkbox-col{width:40px;text-align:center}#filterSearch{display:flex;gap:15px;justify-content:space-between;align-items:center;margin-bottom:25px;flex-wrap:wrap}.filter-group{display:flex;gap:10px;align-items:center}#filterSearch input,#filterSearch select{padding:12px;font-size:15px}.popup-message{display:none;position:fixed;top:20px;left:50%;transform:translateX(-50%);background-color:#28a745;color:#fff;padding:15px 25px;border-radius:8px;box-shadow:0 5px 15px rgba(0,0,0,.1);z-index:1001;opacity:0;transition:opacity .3s ease,transform .3s ease}.popup-message.show{display:block;opacity:1;transform:translateX(-50%) translateY(10px)}.popup-message.error{background-color:#dc3545}
+        #loader{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,.8);z-index:9999;display:flex;justify-content:center;align-items:center;font-size:1.5em;color:#3b82f6}@media print{body *{visibility:hidden}.print-section,.print-section *{visibility:visible}.print-section{position:absolute;left:0;top:0;width:100%;align-items:center}.container,#recordList{display:none}.transfer-order{width:283.46px;height:708.66px;margin:10px 0;padding:15px;border:1px solid #000;border-radius:10px;page-break-inside:avoid;display:flex;flex-direction:column;justify-content:space-between}.transfer-order h2{font-size:1.1em;text-align:center;margin-bottom:8px;color:#000;border-bottom:1px solid #ddd;padding-bottom:5px}.transfer-order-item{border:1px solid #ddd;padding:6px;margin-bottom:6px;border-radius:3px;font-size:.8em;word-wrap:break-word}.signature-line{border-bottom:1px dashed #777;width:70%;margin-top:10px}.version-number{position:absolute;top:10px;left:10px;font-size:.8em;color:#555}}
+    </style>
 </head>
 <body>
 
+<div id="loader" style="display: none;"><i class="fa fa-spinner fa-spin"></i>  Loading...</div>
+
 <div class="container">
-    <h1><i class="fa fa-file-alt"></i> Document Transfer Order</h1>
-
-    <div class="form-row">
-        <div>
-            <label for="driverName"><i class="fa fa-user"></i> Driver Name:</label>
-            <input type="text" id="driverName" name="driverName" required>
-        </div>
-        <div>
-            <label for="branch"><i class="fa fa-building"></i> Branch to Send:</label>
-            <select id="branch" name="branch" required>
-                <option value="" disabled selected>اختر الفرع</option>
-                <option value="نادى هليوبوليس">نادى هليوبوليس</option>
-                <option value="تلال السخنه">تلال السخنه</option>
-                <option value="جاردنز السخنه">جاردنز السخنه</option>
-                <option value="لازوردی بای">لازوردی بای</option>
-                <option value="الدبلوماسيين">الدبلوماسيين</option>
-                <option value="ستيلا">ستيلا</option>
-                <option value="كاسكادا">كاسكادا</option>
-                <option value="تلال الساحل">تلال السخنه</option>
-                <option value="لافيستا بای">لافيستا بای</option>
-                <option value="سوان ليك">سوان ليك</option>
-                <option value="الافيستا رأس الحكمة">الافيستا رأس الحكمة</option>
-                <option value="دبلوماسيين - خضار">دبلوماسيين - خضار</option>
-                <option value="هاسيندا ريد - خضار">هاسيندا ريد - خضار</option>
-                <option value="فوكا باي">فوكا باي</option>
-                <option value="القطامية">القطامية</option>
-                <option value="بالم هيلز رايد">بالم هيلز رايد</option>
-            </select>
-        </div>
-        <div>
-            <label for="date"><i class="fa fa-calendar-alt"></i> Date:</label>
-            <input type="text" id="date" name="date" required>
-        </div>
-    </div>
-
+    <h1><i class="fa fa-file-alt"></i> Document Tracker (Google Sheets)</h1>
     <label for="description"><i class="fa fa-file-text"></i> Document Description:</label>
-    <textarea id="description" name="description" rows="3" required></textarea>
-
-    <label for="status"><i class="fa fa-tasks"></i> Status:</label>
-    <select id="status" name="status">
-        <option value="Pending">Pending</option>
-        <option value="In Transit">In Transit</option>
-        <option value="Delivered">Delivered</option>
-        <option value="Problem">Problem</option>
-    </select>
-
+    <textarea id="description" rows="3" required placeholder="e.g., Invoices, Contracts, Memos..."></textarea>
+    <div class="form-row" style="margin-top: 25px;">
+        <div><label for="driverName"><i class="fa fa-user"></i> Driver Name:</label><input type="text" id="driverName" required></div>
+        <div><label for="date"><i class="fa fa-calendar-alt"></i> Date:</label><input type="text" id="date" required></div>
+        <div><label for="status"><i class="fa fa-tasks"></i> Initial Status:</label><select id="status"><option value="Pending">Pending</option><option value="In Transit">In Transit</option></select></div>
+    </div>
+    <div>
+        <label><i class="fa fa-building"></i> Select Branches to Send:</label>
+        <div id="branch-checkboxes"></div>
+    </div>
     <div class="button-group">
-        <button onclick="saveRecord()"><i class="fa fa-save"></i> Save Record</button>
-        <button onclick="generateTransferOrder()"><i class="fa fa-print"></i> Print Transfer Order</button>
+        <button onclick="processBatch(false)"><i class="fa fa-save"></i> Generate & Save Records</button>
+        <button onclick="processBatch(true)"><i class="fa fa-print"></i> Generate & Print Orders</button>
         <button onclick="resetForm()"><i class="fa fa-undo"></i> Reset Form</button>
     </div>
 </div>
 
 <div id="recordList">
-    <h2><i class="fa fa-list"></i> Saved Records</h2>
-
-    <div id="filterSearch">
-        <select id="categoryFilter" class="filter-select">
-            <option value="">All Categories</option>
-            <option value="driverName">Driver Name</option>
-            <option value="status">Status</option>
-        </select>
-        <input type="text" id="searchTerms" placeholder="Search Terms">
+    <div class="record-list-header">
+        <h2><i class="fa fa-list"></i> Saved Records</h2>
+        <button onclick="printSelectedRecords()"><i class="fa fa-print"></i> Print Selected</button>
     </div>
-
+    <div id="filterSearch">
+        <div class="filter-group">
+            <select id="categoryFilter"><option value="">All Categories</option><option value="driverName">Driver Name</option><option value="branch">Branch</option><option value="status">Status</option><option value="trackingNumber">Tracking Number</option></select>
+            <input type="text" id="searchTerms" placeholder="Search Terms">
+        </div>
+    </div>
     <table id="recordTable">
-        <thead>
-        <tr>
-            <th><i class="fa fa-hashtag"></i> Tracking Number</th>
-            <th><i class="fa fa-user"></i> Driver Name</th>
-            <th><i class="fa fa-calendar-alt"></i> Date</th>
-            <th><i class="fa fa-tasks"></i> Status</th>
-            <th><i class="fa fa-cog"></i> Actions</th>
-        </tr>
-        </thead>
-        <tbody id="recordTableBody">
-        <!-- Records will be listed here -->
-        </tbody>
+        <thead><tr><th class="checkbox-col"><input type="checkbox" id="selectAllCheckbox" title="Select All"></th><th>Tracking #</th><th>Driver</th><th>Branch</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="recordTableBody"></tbody>
     </table>
 </div>
 
-<div id="backupRestore" style="display:none;">  <!-- Hide Backup/Restore for Firebase -->
-    <h2><i class="fa fa-database"></i> Backup & Restore</h2>
-    <button onclick="backupData()"><i class="fa fa-download"></i> Backup Data</button>
-    <button onclick="restoreData()"><i class="fa fa-upload"></i> Restore Data</button>
-</div>
+<div class="print-section" id="printSection"></div>
+<div id="popupMessage" class="popup-message"></div>
 
-<div class="print-section" id="printSection">
-    <!-- Transfer orders will be dynamically added here -->
-</div>
-
-<!-- Popup Message Structure -->
-<div id="popupMessage" class="popup-message">
-    <p id="popupMessageText">Message content goes here.</p>
-    <button class="close-button" onclick="hidePopupMessage()">Close</button>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>  <!-- Flatpickr JS -->
-
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-    // Initialize Flatpickr
-    flatpickr("#date", {
-        dateFormat: "Y-m-d",
-    });
+    // --- CONFIGURATION ---
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrrY5Lx_mWHebfUHT4tMyTvnx7vEGm4MHSHncJftcg3k00kHWniCKXwtu-63A3wNE3/exec"; // <--- PASTE YOUR DEPLOYED URL
 
-    // Firebase Configuration (USE YOUR PROVIDED CONFIGURATION)
-    const firebaseConfig = {
-        apiKey: "AIzaSyBAywYLzQk44GJVMKJC0di8RHjSh1ItBhM",
-        authDomain: "tracking-system-67ff4.firebaseapp.com",
-        projectId: "tracking-system-67ff4",
-        storageBucket: "tracking-system-67ff4.firebasestorage.app",
-        messagingSenderId: "285161375873",
-        appId: "1:285161375873:web:64610062916c214c3e2580",
-        measurementId: "G-KN49MHH1EC"
-    };
+    flatpickr("#date", { dateFormat: "Y-m-d", defaultDate: "today" });
+    const branchOptions = [ "نادى هليوبوليس", "تلال السخنه", "جاردنز السخنه", "لازوردی بای", "الدبلوماسيين", "ستيلا", "كاسكادا", "تلال الساحل", "لافيستا بای", "سوان ليك", "الافيستا رأس الحكمة", "دبلوماسيين - خضار", "هاسيندا ريد - خضار", "فوكا باي", "القطامية", "بالم هيلز رايد" ];
+    const statusOptions = ["Pending", "In Transit", "Delivered", "Problem"];
+    let allRecords = [];
 
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const database = firebase.database(app);
-    const recordsRef = database.ref('transferRecords'); // Reference to your data in Firebase Realtime Database
+    // --- UI & HELPER FUNCTIONS ---
+    const loader = document.getElementById('loader');
+    function showLoader() { loader.style.display = 'flex'; }
+    function hideLoader() { loader.style.display = 'none'; }
+    function showPopupMessage(t,e=!1){const o=document.getElementById("popupMessage");o.textContent=t,o.className=`popup-message ${e?"error":""}`,o.classList.add("show"),setTimeout(()=>o.classList.remove("show"),3e3)}
+    function populateBranchCheckboxes(){document.getElementById("branch-checkboxes").innerHTML=branchOptions.map(t=>`<label class="checkbox-label"><input type="checkbox" value="${t}" name="branch"> ${t}</label>`).join("")}
+    function generateTrackingNumber(){return`TRACK-${Date.now().toString(36)}-${Math.random().toString(36).substring(2,7)}`.toUpperCase()}
 
-
-    // Function to generate a unique tracking number (same as before)
-    function generateTrackingNumber() {
-        const timestamp = Date.now().toString(36);
-        const random = Math.random().toString(36).substring(2, 7);
-        return `TRACK-${timestamp}-${random}`.toUpperCase();
-    }
-
-    // Function to show popup message
-    function showPopupMessage(message) {
-        const popup = document.getElementById('popupMessage');
-        const popupText = document.getElementById('popupMessageText');
-        popupText.textContent = message;
-        popup.classList.add('show');
-        if (popup.showBackdrop) { // Check if backdrop is supported (more modern browsers)
-            popup.showBackdrop(); // Show backdrop if available
-        } else {
-            // Fallback for browsers that don't support backdrop-filter, you could add a semi-transparent overlay behind the popup if needed for older browsers.
-            // For simplicity, we'll skip the fallback for now as backdrop-filter is widely supported in modern browsers.
+    // --- API COMMUNICATION ---
+    async function apiRequest(action, data = {}) {
+        if (!SCRIPT_URL.startsWith("https://script.google.com/")) {
+            showPopupMessage("ERROR: Please paste your Web App URL in the SCRIPT_URL constant.", true);
+            return null;
+        }
+        showLoader();
+        try {
+            const res = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                redirect: "follow", 
+                body: JSON.stringify({ action, ...data }),
+                headers: { "Content-Type": "text/plain;charset=utf-8" }
+            });
+            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+            return await res.json();
+        } catch (error) {
+            console.error('API Request Failed:', error);
+            showPopupMessage('An error occurred. Check the console.', true);
+            return null;
+        } finally {
+            hideLoader();
         }
     }
 
-    // Function to hide popup message
-    function hidePopupMessage() {
-        const popup = document.getElementById('popupMessage');
-        popup.classList.remove('show');
-        if (popup.closeBackdrop) {
-            popup.closeBackdrop(); // Close backdrop if it was shown
-        }
-    }
-
-
-    // Function to save a record to Firebase with error handling
-    function saveRecord() {
+    // --- CORE LOGIC ---
+    async function processBatch(shouldPrint = false) {
         const driverName = document.getElementById('driverName').value;
-        const branch = document.getElementById('branch').value;
         const date = document.getElementById('date').value;
         const description = document.getElementById('description').value;
         const status = document.getElementById('status').value;
-        const trackingNumber = generateTrackingNumber();
-        const creationTimestamp = new Date().toLocaleString();
+        const selectedBranches = Array.from(document.querySelectorAll('#branch-checkboxes input:checked')).map(cb => cb.value);
 
-        const record = {
-            trackingNumber: trackingNumber,
-            creationTimestamp: creationTimestamp,
-            driverName: driverName,
-            branch: branch,
-            date: date,
-            description: description,
-            status: status
-        };
-
-        const editingKey = localStorage.getItem('editingKey');
-
-        if (editingKey) {
-            // Update existing record in Firebase
-            recordsRef.child(editingKey).update(record)
-                .then(() => {
-                    localStorage.removeItem('editingKey');
-                    showPopupMessage('Record updated successfully!');
-                    resetForm();
-                    updateRecordTable();
-                })
-                .catch((error) => {
-                    console.error("Error updating record:", error);
-                    showPopupMessage('Failed to update record. See console for details.');
-                });
-        } else {
-            // Add new record to Firebase
-            recordsRef.push(record)
-                .then(() => {
-                    showPopupMessage('Record saved successfully!');
-                    resetForm();
-                    updateRecordTable();
-                })
-                .catch((error) => {
-                    console.error("Error saving record:", error);
-                    showPopupMessage('Failed to save record. See console for details.');
-                });
+        if (!description || !driverName || !date || selectedBranches.length === 0) {
+            return showPopupMessage('Please fill all fields and select at least one branch.', true);
         }
+        
+        showLoader();
+        let recordsToPrint = [];
+        const creationTimestamp = new Date().toLocaleString("en-US", { timeZone: "Africa/Cairo" });
+        
+        for (const branch of selectedBranches) {
+            const record = { trackingNumber: generateTrackingNumber(), creationTimestamp, driverName, branch, date, description, status };
+            const result = await apiRequest("create", { record });
+            if (result && result.success) {
+                if (shouldPrint) recordsToPrint.push(record);
+            } else {
+                showPopupMessage(`Failed to save record for ${branch}.`, true);
+            }
+        }
+
+        hideLoader();
+        if (recordsToPrint.length > 0) printMultipleRecords(recordsToPrint);
+        showPopupMessage(`${selectedBranches.length} records processed.`);
+        resetForm();
+        fetchAndRenderRecords();
+    }
+    
+    async function fetchAndRenderRecords() {
+        showLoader();
+        const result = await apiRequest('fetchAll');
+        hideLoader();
+        
+        if (!result || !Array.isArray(result)) {
+            console.error('Fetch Failed: API did not return a valid array.', result);
+            showPopupMessage('Could not load data. Response was invalid.', true);
+            allRecords = [];
+        } else {
+            allRecords = result;
+        }
+
+        allRecords.sort((a, b) => {
+            const timeA = a && a.creationTimestamp ? new Date(a.creationTimestamp).getTime() : 0;
+            const timeB = b && b.creationTimestamp ? new Date(b.creationTimestamp).getTime() : 0;
+            return timeB - timeA;
+        });
+        
+        renderTable();
     }
 
-
-    // Function to update the record table from Firebase with error handling
-    function updateRecordTable() {
+    function renderTable() {
         const recordTableBody = document.getElementById('recordTableBody');
-        recordTableBody.innerHTML = ''; // Clear the table body
-
         const searchTerm = document.getElementById('searchTerms').value.toUpperCase();
         const category = document.getElementById('categoryFilter').value;
 
-        recordsRef.on('value', (snapshot) => {
-            const recordsData = snapshot.val();
-            let recordsArray = [];
-
-            if (recordsData) {
-                // Convert object to array for easier iteration
-                recordsArray = Object.entries(recordsData).map(([key, value]) => ({ id: key, ...value }));
-            }
-
-            recordsArray.forEach((record) => {
-                let match = true;
-
-                if (searchTerm && category) {
-                    const recordValue = String(record[category]).toUpperCase();
-                    if (!recordValue.includes(searchTerm)) {
-                        match = false;
-                    }
-                }
-
-                if (match) {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${record.trackingNumber}</td>
-                        <td>${record.driverName}</td>
-                        <td>${record.date}</td>
-                        <td>${record.status}</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button title="Edit Record" onclick="loadRecord('${record.id}')"><i class="fa fa-edit"></i></button>
-                                <button title="Print Transfer Order" onclick="generateTransferOrder('${record.id}')"><i class="fa fa-print"></i></button>
-                                <button title="Delete Record" onclick="deleteRecord('${record.id}')"><i class="fa fa-trash"></i></button>
-                            </div>
-                        </td>
-                    `;
-                    recordTableBody.appendChild(row);
-                }
-            });
-        }, (error) => {
-            console.error("Error fetching records:", error);
-            showPopupMessage('Failed to load records from Firebase. See console for details.');
+        const filteredRecords = allRecords.filter(record => {
+            if (typeof record !== 'object' || record === null) return false;
+            return !searchTerm || !category || String(record[category] || '').toUpperCase().includes(searchTerm);
         });
+
+        if (filteredRecords.length === 0) {
+            recordTableBody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 20px;">No records found.</td></tr>`;
+            return;
+        }
+
+        recordTableBody.innerHTML = filteredRecords.map(t => {
+            const statusDropdown = `<select class="status-select" onchange="updateStatus('${t.id}', this.value)">
+                ${statusOptions.map(e => `<option value="${e}" ${t.status === e ? 'selected' : ''}>${e}</option>`).join('')}
+            </select>`;
+            return `<tr>
+                <td class="checkbox-col"><input type="checkbox" class="record-checkbox" value="${t.id}"></td>
+                <td>${t.trackingNumber || ''}</td>
+                <td>${t.driverName || ''}</td>
+                <td>${t.branch || ''}</td>
+                <td>${t.date || ''}</td>
+                <td>${statusDropdown}</td>
+                <td><div class="action-buttons">
+                    <button title="Print" onclick="printSingleRecord('${t.id}')"><i class="fa fa-print"></i></button>
+                    <button title="Delete" onclick="deleteRecord('${t.id}')"><i class="fa fa-trash"></i></button>
+                </div></td>
+            </tr>`;
+        }).join('');
     }
 
-    // Function to load a record into the form for editing from Firebase with error handling
-    function loadRecord(recordId) {
-        recordsRef.child(recordId).once('value')
-            .then((snapshot) => {
-                const record = snapshot.val();
-                if (record) {
-                    document.getElementById('driverName').value = record.driverName;
-                    document.getElementById('branch').value = record.branch;
-                    document.getElementById('date').value = record.date;
-                    document.getElementById('description').value = record.description;
-                    document.getElementById('status').value = record.status;
-
-                    localStorage.setItem('editingKey', recordId); // Store Firebase key for editing
-                }
-            })
-            .catch((error) => {
-                console.error("Error loading record for edit:", error);
-                showPopupMessage('Failed to load record for editing. See console for details.');
-            });
-    }
-
-    // Function to delete a record from Firebase with error handling
-    function deleteRecord(recordId) {
-        if (confirm("Are you sure you want to delete this record?")) {
-            recordsRef.child(recordId).remove()
-                .then(() => {
-                    showPopupMessage('Record deleted successfully!');
-                    updateRecordTable(); // Refresh the table
-                })
-                .catch((error) => {
-                    console.error("Error deleting record:", error);
-                    showPopupMessage('Failed to delete record. See console for details.');
-                });
+    async function updateStatus(recordId, newStatus) {
+        const result = await apiRequest("updateStatus", {id: recordId, status: newStatus});
+        if (result && result.success) {
+            showPopupMessage("Status updated!");
+            const record = allRecords.find(r => r.id == recordId);
+            if (record) record.status = newStatus;
         }
     }
 
-    // Modify the print function to load the proper index with error handling
-    function generateTransferOrder(recordId = null) {
-        let printRecord;
-
-        if (recordId) { // If recordId is provided (from table print)
-            recordsRef.child(recordId).once('value')
-                .then((snapshot) => {
-                    printRecord = snapshot.val();
-                    if (printRecord) {
-                        printTheRecord(
-                            printRecord.driverName,
-                            printRecord.branch,
-                            printRecord.date,
-                            printRecord.description,
-                            printRecord.status,
-                            printRecord.trackingNumber,
-                            printRecord.creationTimestamp
-                        );
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error fetching record for print:", error);
-                    showPopupMessage('Failed to fetch record for printing. See console for details.');
-                });
-        } else { // If no recordId (print from form)
-            const driverName = document.getElementById('driverName').value;
-            const branch = document.getElementById('branch').value;
-            const date = document.getElementById('date').value;
-            const description = document.getElementById('description').value;
-            const status = document.getElementById('status').value;
-            const trackingNumber = generateTrackingNumber();
-            const creationTimestamp = new Date().toLocaleString();
-            printTheRecord(driverName, branch, date, description, status, trackingNumber, creationTimestamp);
-            saveRecord(); // Optionally save before printing if printing from form
-        }
-    }
-
-    // Function to print the record (no changes needed here)
-    function printTheRecord(driverName, branch, date, description, status, trackingNumber, creationTimestamp) {
-        let printSectionHTML = `
-         <div class="version-number">v 1.1</div>
-         `;
-
-        // Create two copies of the transfer order
-        for (let i = 0; i < 2; i++) {
-            printSectionHTML += `
-                <div class="transfer-order">
-                    <h2>Document Transfer Order</h2>
-                     <div class="transfer-order-item"><strong>Tracking Number:</strong> ${trackingNumber}</div>
-                    <div class="transfer-order-item"><strong>Date/Time Created:</strong> ${creationTimestamp}</div>
-                    <div class="transfer-order-item"><strong>Driver Name:</strong> ${driverName}</div>
-                    <div class="transfer-order-item"><strong>Branch:</strong> ${branch}</div>
-                    <div class="transfer-order-item"><strong>Date:</strong> ${date}</div>
-                    <div class="transfer-order-item"><strong>Description:</strong> ${description}</div>
-                    <div class="transfer-order-item"><strong>Status:</strong> ${status}</div>
-                    <div class="transfer-order-item"><strong>Transfer Order Copy:</strong> ${i === 0 ? 'User' : 'Driver'}</div>
-                     <p class="signature"><strong>First Driver Signature:</strong> <span class="signature-line"></span></p>
-                    <p class="signature second-driver-signature"><strong>Second Driver Signature:</strong> <span class="signature-line"></span></p>
-                    <p class="signature"><strong>Receiver Signature:</strong> <span class="signature-line"></span></p>
-                    <p class="signature"><strong>Date Received:</strong> <span class="signature-line"></span></p>
-                </div>
-            `;
-            if (i === 0) {
-                printSectionHTML += `<div style="page-break-after: always;"></div>`;  // page break after the first copy
+    async function deleteRecord(recordId) {
+        if (confirm("Are you sure you want to permanently delete this record?")) {
+            const result = await apiRequest("delete", {id: recordId});
+            if (result && result.success) {
+                showPopupMessage("Record deleted.");
+                allRecords = allRecords.filter(r => r.id != recordId);
+                renderTable();
             }
         }
-
-        document.getElementById('printSection').innerHTML = printSectionHTML;
-        document.getElementById('printSection').style.display = 'block';
-        window.print();
-        document.getElementById('printSection').style.display = 'none';
     }
+    
+    function resetForm(){document.getElementById("driverName").value="",document.getElementById("description").value="",document.querySelectorAll("#branch-checkboxes input:checked").forEach(t=>t.checked=!1),flatpickr("#date",{}).setDate(new Date)}
+    function printSelectedRecords(){const t=Array.from(document.querySelectorAll(".record-checkbox:checked")).map(t=>t.value);if(0===t.length)return showPopupMessage("Please select records to print.",!0);const e=allRecords.filter(e=>t.includes(String(e.id)));printMultipleRecords(e)}
+    function printSingleRecord(t){const e=allRecords.find(e=>String(e.id)===t);e?printMultipleRecords([e]):showPopupMessage("Record not found.",!0)}
+    function printMultipleRecords(t){let e='<div class="version-number">v 2.3 Sheets</div>';t.forEach(t=>{for(let o=0;o<2;o++)e+=`\n                    <div class="transfer-order">\n                        <h2>Document Transfer Order</h2>\n                        <div class="transfer-order-item"><strong>Tracking #:</strong> ${t.trackingNumber||""}</div>\n                        <div class="transfer-order-item"><strong>Created:</strong> ${t.creationTimestamp||""}</div>\n                        <div class="transfer-order-item"><strong>Driver:</strong> ${t.driverName||""}</div>\n                        <div class="transfer-order-item"><strong>Branch:</strong> ${t.branch||""}</div>\n                        <div class="transfer-order-item"><strong>Date:</strong> ${t.date||""}</div>\n                        <div class="transfer-order-item"><strong>Desc:</strong> ${t.description||""}</div>\n                        <div class="transfer-order-item"><strong>Status:</strong> ${t.status||""}</div>\n                        <div class="transfer-order-item"><strong>Copy:</strong> ${0===o?"User":"Driver"}</div>\n                        <p><strong>Driver Sig:</strong><span class="signature-line"></span></p>\n                        <p><strong>Receiver Sig:</strong><span class="signature-line"></span></p>\n                    </div>`,1===o&&(e+='<div style="page-break-after: always;"></div>')}),document.getElementById("printSection").innerHTML=e,window.print()}
 
-
-    // Function to reset the form (no changes needed here)
-    function resetForm() {
-        document.getElementById('driverName').value = '';
-        document.getElementById('branch').value = '';
-        document.getElementById('date').value = '';
-        document.getElementById('description').value = '';
-        document.getElementById('status').value = 'Pending';
-        localStorage.removeItem('editingKey'); //Clear editing key
-    }
-
-
-    // Combined Search and Category filter (no changes needed here)
-    document.getElementById('searchTerms').addEventListener('input', updateRecordTable);
-    document.getElementById('categoryFilter').addEventListener('change', updateRecordTable);
-
-    // Initialize record list on page load (no changes needed here)
-    updateRecordTable();
-
-    // --- Firebase Read Test (for debugging) ---
-    recordsRef.limitToFirst(1).once('value')
-        .then(snapshot => {
-            if (snapshot.exists()) {
-                console.log("Firebase Read Test: Successfully read data:", snapshot.val());
-            } else {
-                console.log("Firebase Read Test: No data found at /transferRecords");
-            }
-        })
-        .catch(error => {
-            console.error("Firebase Read Test Error:", error);
+    // --- INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', () => {
+        populateBranchCheckboxes();
+        fetchAndRenderRecords();
+        document.getElementById('searchTerms').addEventListener('input', renderTable);
+        document.getElementById('categoryFilter').addEventListener('change', renderTable);
+        document.getElementById('selectAllCheckbox').addEventListener('change', e => {
+            document.querySelectorAll('.record-checkbox').forEach(cb => cb.checked = e.target.checked);
         });
-    // --- End Firebase Read Test ---
-
+    });
 </script>
+
 </body>
 </html>
